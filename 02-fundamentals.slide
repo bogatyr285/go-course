@@ -1,0 +1,532 @@
+# База #1
+
+## Агенда
+
+- Types
+- Variables
+- Control flow
+- Functions
+- User-defined data types
+- Pointers
+
+## Types
+
+- Похож на C
+- Нет автокаста
+- Type inference("Вывод типов") и дефолтные значения
+
+.link https://ru.wikipedia.org/wiki/%D0%92%D1%8B%D0%B2%D0%BE%D0%B4_%D1%82%D0%B8%D0%BF%D0%BE%D0%B2 wiki
+
+```
+bool
+
+string
+
+int  int8  int16  int32  int64
+uint uint8 uint16 uint32 uint64 uintptr
+
+byte // alias for uint8
+
+rune // alias for int32
+     // represents a Unicode code point
+
+float32 float64
+
+complex64 complex128
+```
+
+## Стандартные значения
+
+- У каждого типа есть свое значение по умолчанию
+    - Numeric types: **`0`**
+    - Strings: **`""`**
+    - Runes: **`''`**
+    - Booleans: **`false`**
+    - Pointer types: **`nil`**
+        - Тут есть нюансы
+        - https://go.dev/play/p/wYWX4cDk3rc
+
+## Переменные
+
+## Переменные
+
+- Объявления
+    - **`var`**
+    - **`:=`**
+        - Определяет тип переменной
+        -  Не может использоваться при объявлении глобальных переменных (только уровне функции)
+- Присваивания
+    - **`=`**
+    - Переменная должна быть уже объявлена 
+
+## Переменные
+
+.play assets/lecture-02/variables/variables.go
+
+## Правильное объявление переменных
+
+- Используйте **`var`**, если хотите использовать значение по умолчанию
+```
+ // YES
+var counter int
+
+ // NO
+counter := 0
+```
+- Используйте **`:=`** при инициализации переменной значением, отличным от значения по умолчанию
+```
+ // YES
+counter := 100
+
+ // NO
+var counter = 100
+```
+
+## Константы
+
+
+- Объявляется и инициализируется с помощью **`const`**
+- Никакие изменения, кроме объявления, не допускаются
+- Поддерживает только rune, string, bool и int/float
+
+
+.play assets/lecture-02/variables/constants.go
+
+## Приведение типов
+
+- Нет автокаста
+
+.play assets/lecture-02/variables/casting.go
+
+## Shadowing
+
+- Переменные из внешних блоков могут быть перетерты
+
+.play assets/lecture-02/variables/shadowing.go
+
+## Shadowing
+
+- Не работает в том же блоке
+
+.play assets/lecture-02/variables/shadowing-same-block.go
+
+## Control Flow
+
+## Условия
+
+- Нет скобочек вокруг
+- Есть секция инициализации
+- Зона видимости при инициализации равно условию
+
+.play assets/lecture-02/if/if.go
+
+## Else
+
+- Переменные, объявленные в инструкции init, доступны в блоках (else-if)-else
+
+.play assets/lecture-02/if/if-else.go
+
+## Switch Оператор
+
+- Также допускает инструкцию init.
+- Подобие набора операторов if-(else-if)-else
+- Идет сверху вниз, выполняется первый успешный кейс
+- (!) По умолчанию нет прохода вниз(fallthrough)
+
+
+.play assets/lecture-02/switch/switch.go
+
+## Switch fallthrough
+
+- Fallthrough can может быть задано явно
+- Не рекомендуется
+
+.play assets/lecture-02/switch/fallthrough.go
+
+## Switch statement expressions
+
+- Допускает типовые и нецелочисленные значения
+
+.play assets/lecture-02/switch/expressions.go
+
+## Switch without condition
+
+- Switch без условия как `switch true`
+
+.play assets/lecture-02/switch/empty.go
+
+## Циклы
+
+- Существует только ключевое слово "for" (без "while")
+
+.play assets/lecture-02/for/for.go
+
+## Циклы
+
+- `break` есть
+- `continue` есть
+- Тоже самое что в других языках
+
+## Метки и goto
+
+- Оно есть, но только не надо этого делать
+- Очень прошу...
+- Ваши коллеги вас возненавидят! (или уволят)
+
+.play assets/lecture-02/goto/goto.go
+
+## Метки с циклами
+
+- Может использоваться с "break" и "continue" в циклах
+
+.play assets/lecture-02/for/labels.go
+
+## Функции
+
+## Функции
+
+- Определяются с помощью ключевого слова `func`
+- Аргументы передаются по значению
+
+.play assets/lecture-02/functions/functions.go
+
+## Несколько возвращаемых значений
+
+.play assets/lecture-02/functions/multiple-return-values.go
+
+## Возвращаемые значения с именами
+
+.play assets/lecture-02/functions/named-return-values.go
+
+## Краткая запись
+
+.play assets/lecture-02/functions/shortened-types.go
+
+## Игнорирование значений
+
+- Идиома "_` может использоваться для удаления возвращаемых значений
+
+.play assets/lecture-02/functions/ignore-values.go
+
+## Lambda функции
+
+- Они же функциональные литералы
+- Могут вызываться напрямую или присваиваться переменной
+
+.play assets/lecture-02/functions/literals.go
+
+## Использование lambda функций
+
+- Блоки `go`
+- Инструкция `defer`
+- Сallback
+- Функции сравнения для сортировки
+
+## Функции высшего порядка
+
+- Функции подобны любым другим значениям
+    - "first-class citizens"
+
+.play assets/lecture-02/functions/higher-order.go
+
+## Closures/замыкания
+
+- Лямбда-функции, которые ссылаются на переменные, определенные вне области действия функции
+- Она "закрывает" другую функцию, отсюда и название
+- Полезно для функций, которым необходимо сохранять свое состояние "где-то"
+
+## Closures
+
+.play assets/lecture-02/functions/closure.go
+
+##  Опасная функция init
+
+- По сути, функция для побочных эффектов
+- Устанавливает начальное состояние
+- Вызывается при импорте пакета
+- По возможности избегайте
+
+.play assets/lecture-02/functions/init.go /START OMIT/,/END OMIT/
+
+## defer оператор
+
+- "defer" - ключевое слово в Go
+- Используется для "запоминания" команд, которые будут вызваны перед "возвратом" или выходом из функции
+- На основе LIFO (стека) запоминаемых команд
+    - Сначала вызывается последний отложенный вызов
+- Параметры вычисляются при объявлении `defer` (т.е. во время выполнения)
+    - Не при вызове указанного кода
+- Можно изменить возвращаемые значения функции с помощью `defer`
+- Отлично подходит для очистки ресурсов
+
+## Основное использование defer
+
+- Функция "on_finish()" вызывается перед выходом из `main()`
+
+.play assets/lecture-02/defer/defer.go
+
+## Объявление функции в инструкции defer
+
+- Обычно определение функции является частью инструкции `defer`
+- Эта функция является анонимной - лямбда, и обычно она также является замыкающей
+
+.play assets/lecture-02/defer/lambda.go
+
+## defer в цикле
+
+- 10 инструкций `defer`
+- Поведение LIFO
+
+.play assets/lecture-02/defer/loop.go
+
+## defer вычисление параметров
+
+- Фактические параметры вычисляются во время выполнения
+
+.play assets/lecture-02/defer/arguments-evaluation.go
+
+## defer с несколькими инструкциями return (1/2)
+
+- `defer` вызывается, даже если используется больше инструкций return
+
+.play assets/lecture-02/defer/multiple-returns.go /^package main/,/^func main/
+
+## defer с несколькими return (2/2)
+
+.play assets/lecture-02/defer/multiple-returns.go /^func main/,/^}/
+
+## Практическое использование defer (1/2)
+
+.play assets/lecture-02/defer/io-example.go /^package main/,/^}/
+
+## Практическое использование defer (2/2)
+
+.play assets/lecture-02/defer/io-example.go /^func main/,/^}/
+
+## defer и возвращаемые значения
+
+- Можно подменить возвращаемые значения функции с помощью `defer`
+    - работает как замыкание
+- Возвращаемые значения функции должны быть объявлены
+- Иногда используется для изменения возвращаемого значения `err`
+
+## defer и возвращаемые значения
+
+.play assets/lecture-02/defer/return-values.go
+
+## defer и пример с собесов 
+.play assets/lecture-02/defer/task.go
+
+## Пользовательские типы данных
+
+## Пользовательские типы данных
+
+- `type` keyword
+- Go строг в отношении типов
+- Новые типы могут быть определены с помощью ключевого слова "type" (алиасы)
+
+```
+type Email string
+```
+
+- Вот, например, как определяются типы `byte`, `rune`
+
+```
+type byte = uint8
+type rune = int32
+```
+
+[builtin.go](https://cs.opensource.google/go/go/+/master:src/builtin/builtin.go)
+
+- Все пользовательские типы могут быть легко напечатаны
+    - Нет необходимости определять функцию toString()
+
+## Пользовательские типы данных
+
+.play assets/lecture-02/types/user-types.go
+
+## Пользовательские типы данных
+
+.play assets/lecture-02/types/user-types-as-params.go
+
+## Структуры
+- Определяются с использованием ключевых слов "type" и "struct"
+- Тип данных, определяемый пользователем
+    - Могут быть анонимными
+- Оператор точка для доступа к элементам структуры
+- Инициализация с помощью `{}`
+    - При неявной инициализации элементы следуют порядку, указанному в объявлении структуры
+- Структуры можно сравнивать
+    - (!) Обратите внимание, что структура не должна содержать несопоставимых типов (slice, map. func)
+
+## Cтруктуры
+
+.play assets/lecture-02/structs/struct.go
+
+## Инициализация элементов структуры
+
+- Аналогично С
+- Используем {}
+- Инициализация в стиле C: порядок имеет значение!
+
+## Инициализация элементов структуры
+
+.play assets/lecture-02/structs/init.go
+
+## Явная инициализация элементов структуры
+
+- Элементы структуры явно указываются по имени
+- Значительно повышает удобочитаемость
+- Предпочтительный подход
+
+## Явная инициализация элементов структуры
+
+.play assets/lecture-02/structs/explicit-init.go
+
+## Структуры можно сравнивать
+
+- Только `==` и `!=` 
+
+.play assets/lecture-02/structs/comparison.go /^func main/,/^}/
+
+## Сравнение по указателю
+
+.play assets/lecture-02/structs/compare_pointers.go
+
+## Сравнение не того
+
+.play assets/lecture-02/structs/bad_type.go
+
+## Вызов функций со структурами в качестве аргументов
+
+.play assets/lecture-02/structs/argument.go
+
+## Встраивание структуры
+
+.play assets/lecture-02/structs/embedding.go
+
+## Анонимная структура
+
+- Просто объявите новую переменную и укажите ее тип `struct` _something_
+
+.play assets/lecture-02/structs/anonymous.go
+
+## Изменение полей
+
+.play assets/lecture-02/structs/change_name.go
+
+## Enums
+
+- Прямой поддержки нет
+- Может быть в некоторой степени имитировано с помощью
+    - Пользовательских типов
+    - И набора предопределенных констант
+- В Go есть специальная функция для перечисления целочисленных констант
+
+[Go Spec: iota](https://go.dev/ref/spec#Iota)
+
+## Enums
+
+.play assets/lecture-02/enums/days.go /START OMIT/,/END OMIT/
+
+## Enums
+
+.play assets/lecture-02/enums/iota.go /START OMIT/,/END OMIT/
+
+## Указатели
+
+## Указатели
+
+- Всегда указывают на элемент определенного типа 
+- Дефолтное значение `nil`
+- Разодресация через &
+- Разыменование через *
+- Go не Поддерживает арифметику указателей
+
+## Базовое использование указателей
+
+- Обратим внимание на `*p_i++`
+
+.play assets/lecture-02/pointers/to-int.go
+
+## Panic on nil dereference
+
+.play assets/lecture-02/pointers/panic.go
+
+## Указатель на структуру (1/2)
+
+.play assets/lecture-02/pointers/to-struct.go /START OMIT/,/MIDDLE OMIT/
+
+## Указатель на структуру (2/2)
+
+- Мы можем написать `p_u.id` вместо `(*p_u).id`
+
+.play assets/lecture-02/pointers/to-struct.go /MIDDLE OMIT/,/END OMIT/
+
+## Указатель на структуру
+
+.play assets/lecture-02/pointers/to-struct-member.go /MIDDLE OMIT/,/END OMIT/
+
+## Возвращаем указатель на локальную переменную в С
+
+    #include <stdio.h>
+
+    int* get_pointer(void) {
+        int i = 42;
+        return &i;
+    }
+
+    int main(void) {
+        int *p = get_pointer();
+        printf("%p\n", p);
+        printf("%d\n", *p);
+        return 0;
+    }
+
+## Тоже самое в Go
+
+.play assets/lecture-02/pointers/return-reference.go
+
+## Меняем переменные
+.play assets/lecture-02/pointers/сhange_ints.go
+
+
+## И снова о типах
+
+## Методы на типах
+
+-  _метод_  функция, определенная на типе
+    - В OOП: метод - функция определенная на инициализованном объекте
+- Концепт receiver
+- Объявление метода:
+
+```
+func (receiver) methodName(parameters) returnTypes {
+    // body
+}
+```
+
+- Методы вызываются:
+
+```
+someType.methodName(parameters)
+```
+
+- Методы могут изменять данные внутри ресивера
+    - Вызов по значению vs по ссылке
+
+## Пользовательский тип с одним методов
+
+.play assets/lecture-02/methods/methods.go
+
+## Value receiver
+
+.play assets/lecture-02/methods/value-receiver.go
+
+## Pointer receiver
+
+.play assets/lecture-02/methods/pointer-receiver.go
+
+## Nil receiver
+
+.play assets/lecture-02/methods/nil-receiver.go

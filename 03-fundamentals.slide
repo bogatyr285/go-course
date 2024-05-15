@@ -1,0 +1,242 @@
+
+## Приведение типов
+
+.play assets/lecture-03/interfaces/assertions.go
+
+## Приведение типов
+
+.play assets/lecture-03/interfaces/server-error-assertions.go
+
+
+## Ошибки
+
+## Ошибки
+
+- error - встроенный тип
+    - Это интерфейс Error() string
+-  Рассматриваются как обычные значения
+
+```
+type error interface {
+    Error() string
+}
+```
+
+[builtin.go](https://cs.opensource.google/go/go/+/master:src/builtin/builtin.go;l=308)
+
+## Работа с ошибками
+
+[Go Blog: Error handling and Go](https://go.dev/blog/error-handling-and-go)
+
+.play assets/lecture-03/errors/errors.go
+
+## Wrapping errors
+
+- Ошибки можно оборачивать с `fmt.Errorf`
+- Их потом можно `развернуть` чтоб получить исходные ошибки
+    - Можно вызваьт `errors.Unwrap` 
+    - Или `errors.Is` и `errors.As`
+
+[errors package](https://pkg.go.dev/errors)
+
+## Wrapping
+
+.play assets/lecture-03/errors/wrapping.go /START OMIT/,/END OMIT/
+
+## Кастомные
+
+.play assets/lecture-03/errors/sentinel.go /START OMIT/,/END OMIT/
+
+## Custom errors
+
+.code assets/lecture-03/errors/custom.go /START OMIT/,/MIDDLE OMIT/
+
+## Custom errors
+
+.play assets/lecture-03/errors/custom.go /MIDDLE OMIT/,/END OMIT/
+
+## Линия взгляда/Line of sight
+
+- [Line of sight by Mat Ryer](https://medium.com/@matryer/line-of-sight-in-code-186dd7cdea88)
+
+Об идиоматическом и простом для понимания коде Go
+    - "Счастливый путь" слева (в одной колонке)
+    - Выходим как можно раньше
+    - Лучше без else
+    - Возврат результа в самой последней строке
+
+## Panic
+
+- Ошибки это круто
+- Но что насчет паники?
+
+.play assets/lecture-03/panic/panic.go
+
+## Recover
+
+.play assets/lecture-03/panic/recover.go
+
+[Go Blog: Defer, Panic, and Recover](https://go.dev/blog/defer-panic-and-recover)
+
+## Массив
+
+## Массив
+
+- Базовый тип данных в  Go
+- Все элементы одгого типа
+    - Кроме случаев с `interface{}` для _динамической типизации_
+- Тип массива берется от типа элементов **и** имеет фиксированную длину
+    - В отличии от слайсов
+- Index in range *<0,length)*
+- Array items are indexed via `[]`
+    - As in most other languages
+
+## Базовые операции
+
+.play assets/lecture-03/arrays/arrays.go
+
+## Matrix
+
+- Могут быть вложенные
+
+.play assets/lecture-03/arrays/matrix.go
+
+## Копирование массива
+
+- В отличии от слайсов массивы копируются
+
+.play assets/lecture-03/arrays/reassignment.go
+
+## Выход за пределы
+
+.play assets/lecture-03/arrays/bounds.go
+
+.play assets/lecture-03/arrays/panic.go
+
+## Slices
+
+## Slices
+
+- Правильный тип данных
+- Используются чаще, чем старые массивы _plain_
+    - массивы на самом деле почти никогда не используются
+    - Массивы служат только основой
+- Тип зависит от типа его элементов
+- По сути, срез является тройным:
+    - **Указатель** на первый элемент (начало базового массива)
+    - ** Длина** массива
+    - **Емкость** массива
+- "Оператор среза" `[от:до]`
+    - "append" для добавления нового элемента в slice
+
+## Использование
+
+.play assets/lecture-03/slices/slices.go /START OMIT/,/MIDDLE OMIT/
+
+[Go Blog: slice usage and internals](https://go.dev/blog/slices/intro)
+
+## Использование 
+
+.play assets/lecture-03/slices/slices.go /MIDDLE OMIT/,/END OMIT/
+
+## Слайсы и массивы как источник данных
+
+- Cлайс может быть создан из любого массива
+    - Cлайс не содержит никаких данных, только указатель на элемент массива
+    - Любое изменение элемента слайса также отражается в массиве
+## Слайсы и массивы как источник данных
+
+.play assets/lecture-03/slices/modifications.go /START OMIT/,/END OMIT/
+
+## Слайс из слайса
+
+.play assets/lecture-03/slices/slicing.go /START OMIT/,/END OMIT/
+
+## append
+
+- Функция `append` возвращает новый слайс
+    - Всегда присваивайте выходные данные append одному и тому же слайсу
+- Capacity нового слайса может быть увеличена
+    - Магия реаллокации под капотом!
+
+.play assets/lecture-03/slices/append.go /START OMIT/,/END OMIT/
+
+## make 
+
+- Allows to create slices with preallocated size
+- Takes up to three arguments. Mind the order!
+    - Type of the slice
+    - Length
+    - Capacity (optional)
+
+- Позволяет создавать слайсы с заранее заданным размером
+- Принимает до трех аргументов. Следите за порядком!
+    - Тип 
+    - Длина
+    - Емкость (необязательно)
+
+.play assets/lecture-03/slices/make.go /START OMIT/,/END OMIT/
+
+## Опциональные параметры
+
+.play assets/lecture-03/slices/variadic-func.go /START OMIT/,/END OMIT/
+
+
+## Sets
+
+- В Go нет множеств
+    - Однако их можно легко сделать с помощью map
+
+- Для значений можно использовать тип `struct{}`
+    - Не требует памяти
+
+```
+map[key_type]struct{}
+```
+
+- - Или `bool`
+    - Занимает память
+
+```
+if set[key] { // returns bool
+    ...
+}
+```
+
+## Циклы
+
+- Other than the three types of loops presented in the previous fundamentals lecture:
+    - Классический цикл
+    - While с условиями
+    - Бесконечный
+- Есть и 4й тип:
+    - range
+- `range` может итерировать по  массивам, слайсам, мапам
+- Provides an item index as well
+    - Enumeration
+
+## На массив интов
+
+.play assets/lecture-03/range/ints.go
+
+## По массиву
+
+- First item stores the index, second stores the values
+
+.play assets/lecture-03/range/arrays.go /START OMIT/,/END OMIT/
+
+## По слайсам
+
+- Works the same way as range with arrays
+
+.play assets/lecture-03/range/slices.go /START OMIT/,/END OMIT/
+
+## По строкам
+
+.play assets/lecture-03/range/strings.go
+
+## По мапам
+
+- ВНИМАНИЕ. Порядок не гарантирован
+
+.play assets/lecture-03/range/maps.go
