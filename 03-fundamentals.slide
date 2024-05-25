@@ -1,3 +1,4 @@
+# База #2
 
 ## Приведение типов
 
@@ -9,6 +10,7 @@
 
 
 ## Ошибки
+    Одна ошибка и ты ошибся
 
 ## Ошибки
 
@@ -47,11 +49,11 @@ type error interface {
 
 .play assets/lecture-03/errors/sentinel.go /START OMIT/,/END OMIT/
 
-## Custom errors
+## Кастомные
 
 .code assets/lecture-03/errors/custom.go /START OMIT/,/MIDDLE OMIT/
 
-## Custom errors
+## Кастомные
 
 .play assets/lecture-03/errors/custom.go /MIDDLE OMIT/,/END OMIT/
 
@@ -87,15 +89,13 @@ type error interface {
     - Кроме случаев с `interface{}` для _динамической типизации_
 - Тип массива берется от типа элементов **и** имеет фиксированную длину
     - В отличии от слайсов
-- Index in range *<0,length)*
-- Array items are indexed via `[]`
-    - As in most other languages
+    - Все как в других языках
 
 ## Базовые операции
 
 .play assets/lecture-03/arrays/arrays.go
 
-## Matrix
+## Двумерные/Х-мерные
 
 - Могут быть вложенные
 
@@ -117,14 +117,12 @@ type error interface {
 
 ## Slices
 
-- Правильный тип данных
-- Используются чаще, чем старые массивы _plain_
-    - массивы на самом деле почти никогда не используются
-    - Массивы служат только основой
+- Используются чаще, чем обычные массивы
+    - Массивы на самом деле почти никогда не используются
 - Тип зависит от типа его элементов
-- По сути, срез является тройным:
+- По сути, слайс состоит из:
     - **Указатель** на первый элемент (начало базового массива)
-    - ** Длина** массива
+    - **Длина** массива
     - **Емкость** массива
 - "Оператор среза" `[от:до]`
     - "append" для добавления нового элемента в slice
@@ -135,9 +133,7 @@ type error interface {
 
 [Go Blog: slice usage and internals](https://go.dev/blog/slices/intro)
 
-## Использование 
-
-.play assets/lecture-03/slices/slices.go /MIDDLE OMIT/,/END OMIT/
+[GoLang Slice YouTube](https://www.youtube.com/watch?v=10LW7NROfOQ)
 
 ## Слайсы и массивы как источник данных
 
@@ -163,13 +159,7 @@ type error interface {
 
 ## make 
 
-- Allows to create slices with preallocated size
-- Takes up to three arguments. Mind the order!
-    - Type of the slice
-    - Length
-    - Capacity (optional)
-
-- Позволяет создавать слайсы с заранее заданным размером
+- Позволяет создавать слайсы(и не только) с заранее заданным размером
 - Принимает до трех аргументов. Следите за порядком!
     - Тип 
     - Длина
@@ -205,15 +195,15 @@ if set[key] { // returns bool
 
 ## Циклы
 
-- Other than the three types of loops presented in the previous fundamentals lecture:
+- C прошлой лекции:
     - Классический цикл
     - While с условиями
     - Бесконечный
 - Есть и 4й тип:
     - range
 - `range` может итерировать по  массивам, слайсам, мапам
-- Provides an item index as well
-    - Enumeration
+    - Предоставляет объект как значение
+    - Перебор
 
 ## На массив интов
 
@@ -221,13 +211,9 @@ if set[key] { // returns bool
 
 ## По массиву
 
-- First item stores the index, second stores the values
-
 .play assets/lecture-03/range/arrays.go /START OMIT/,/END OMIT/
 
 ## По слайсам
-
-- Works the same way as range with arrays
 
 .play assets/lecture-03/range/slices.go /START OMIT/,/END OMIT/
 

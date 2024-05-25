@@ -170,8 +170,8 @@ var counter = 100
 ## Метки и goto
 
 - Оно есть, но только не надо этого делать
-- Очень прошу...
-- Ваши коллеги вас возненавидят! (или уволят)
+- Просто не надо...
+- Ваши коллеги вас возненавидят! или уволят
 
 .play assets/lecture-02/goto/goto.go
 
@@ -462,10 +462,6 @@ type rune = int32
 - Мы можем написать `p_u.id` вместо `(*p_u).id`
 
 .play assets/lecture-02/pointers/to-struct.go /MIDDLE OMIT/,/END OMIT/
-
-## Указатель на структуру
-
-.play assets/lecture-02/pointers/to-struct-member.go /MIDDLE OMIT/,/END OMIT/
 
 ## Возвращаем указатель на локальную переменную в С
 

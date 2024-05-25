@@ -22,11 +22,11 @@ func foo() {
 }
 
 func main() {
-	// defer func() {
-	// 	if r := recover(); r != nil {
-	// 		fmt.Println("Recovered in f", r)
-	// 	}
-	// }()
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Recovered in f", r)
+		}
+	}()
 	fmt.Println("main() started")
 	defer defMain() // defer defMain call
 	foo()           // call foo function

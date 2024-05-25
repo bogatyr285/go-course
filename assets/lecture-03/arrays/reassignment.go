@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	var a1 [10]int // = make([]int, 10)
+	var a1 []int = make([]int, 10)
 
 	a2 := a1
 

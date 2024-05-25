@@ -35,6 +35,8 @@ func main() {
 	(*pSurname) = "Pike"
 	fmt.Println(*pName)
 	fmt.Println(*pSurname)
+
+	fmt.Println("sourse u", u)
 }
 
 // END OMIT

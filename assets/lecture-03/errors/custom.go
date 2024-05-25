@@ -36,11 +36,11 @@ func processRequest(req http.Request) error {
 func main() {
 	err := processRequest(http.Request{})
 
-	// var httpErr httpErr
-	// if errors.As(err, &httpErr) {
-	// 	fmt.Printf("Failed! Code: %d\n", httpErr.code)
-	// 	os.Exit(2)
-	// }
+	var httpErr httpErr
+	if errors.As(err, &httpErr) {
+		fmt.Printf("Failed with httpErr! Code: %d\n", httpErr.code)
+		os.Exit(2)
+	}
 
 	if err != nil {
 		fmt.Println("Failed!", err)

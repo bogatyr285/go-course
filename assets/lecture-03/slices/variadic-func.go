@@ -1,29 +1,27 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // START OMIT
 
 func printArgs(args ...string) {
-	for _, arg := range args {
-		fmt.Printf("%s ", arg)
-	}
 
-	fmt.Println()
 }
 
 func main() {
-	printArgs() // args == nil
-	printArgs("A")
-	printArgs("H", "J")
-	printArgs("X", "Y", "Z")
+	q := q{}
+	b, _ := json.Marshal(q)
 
-	args := []string{
-		"Hello",
-		"World",
-		"!",
-	}
-	printArgs(args...) // spread values
+	fmt.Println(string(b))
 }
 
-// END OMIT
+type q struct {
+	Text *string `json:"text,omitempty"`
+}
+
+func qq(v q) {
+
+}

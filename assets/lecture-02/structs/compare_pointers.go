@@ -12,5 +12,5 @@ func main() {
 	x := &S{"a", "b", "c"}
 	y := &S{"a", "b", "c"}
 
-	fmt.Println(x == y)
+	fmt.Println(&x, &y)
 }

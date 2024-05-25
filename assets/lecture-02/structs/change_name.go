@@ -7,9 +7,7 @@ type Person struct {
 }
 
 func changeName(person *Person) {
-	person = &Person{
-		Name: "Alice",
-	}
+	person.Name = "test"
 }
 
 func main() {
@@ -21,22 +19,19 @@ func main() {
 	fmt.Println(person.Name)
 }
 
-type Person struct {
-	Name string
-}
+// func main() {
+// 	person := &Person{
+// 		Name: "Bob",
+// 	}
+// 	fmt.Println(person.Name)
 
-func main() {
-	person := &Person{
-		Name: "Bob",
-	}
-	fmt.Println(person.Name)
-	changeName(person)
-	fmt.Println(person.Name)
-	changeName2(person)
-	fmt.Println(person.Name)
-	changeName3(person)
-	fmt.Println(person.Name)
-}
+// 	changeName(person)
+// 	fmt.Println(person.Name)
+// 	changeName2(person)
+// 	fmt.Println(person.Name)
+// 	changeName3(person)
+// 	fmt.Println(person.Name)
+// }
 
 func changeName(person *Person) *Person {
 	return &Person{
