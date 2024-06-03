@@ -1,0 +1,4 @@
+mode: set
+course/tests/coverage/baz.go:3.29,4.17 1 1
+course/tests/coverage/baz.go:4.17,6.3 1 1
+course/tests/coverage/baz.go:6.8,8.3 1 1

@@ -1,0 +1,12 @@
+mode: set
+course/tests/mock/service.go:21.55,23.2 1 1
+course/tests/mock/service.go:25.54,28.2 1 1
+course/tests/mock/service.go:30.49,31.41 1 1
+course/tests/mock/service.go:31.41,33.3 1 1
+course/tests/mock/service.go:34.2,34.32 1 1
+course/tests/mock/service_mock.go:30.73,34.2 3 1
+course/tests/mock/service_mock.go:37.71,39.2 1 1
+course/tests/mock/service_mock.go:42.59,47.2 4 1
+course/tests/mock/service_mock.go:50.77,53.2 2 1
+course/tests/mock/service_mock.go:56.65,62.2 5 1
+course/tests/mock/service_mock.go:65.76,68.2 2 1
