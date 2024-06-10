@@ -5,15 +5,15 @@ import (
 	"sync"
 )
 
-var wg sync.WaitGroup
-
 func main() {
-	for val := range producer() {
+	wg := &sync.WaitGroup{}
+
+	for val := range producer(wg) {
 		fmt.Println(val)
 	}
 }
 
-func producer() chan int {
+func producer(wg *sync.WaitGroup) chan int {
 	out := make(chan int)
 	go func() {
 		defer close(out)

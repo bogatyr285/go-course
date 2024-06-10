@@ -17,7 +17,7 @@ func fibonacci(n int) <-chan int {
 	out := make(chan int)
 	go func() {
 		defer close(out)
-		fmt.Println("Hello, I am the producer")
+		fmt.Println("from producer")
 		for i, j := 0, 1; i < n; i, j = i+j, i {
 			out <- i
 		}
