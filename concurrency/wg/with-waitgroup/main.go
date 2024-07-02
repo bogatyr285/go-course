@@ -9,11 +9,12 @@ import (
 
 func main() {
 	fmt.Println("number of cores:", runtime.NumCPU())
-	var wg sync.WaitGroup
+	// var wg sync.WaitGroup
+	wg := &sync.WaitGroup{}
 	wg.Add(10)
 	now := time.Now()
 	for i := 0; i < 10; i++ {
-		go work(&wg, i+1)
+		go work(wg, i+1)
 	}
 	wg.Wait()
 	fmt.Println("elapsed:", time.Since(now))

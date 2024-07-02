@@ -4,6 +4,7 @@ import "sync"
 
 func main() {
 	var wg sync.WaitGroup
-	wg.Add(1)
+	wg.Add(2)
+	wg.Done()
 	wg.Wait()
 }

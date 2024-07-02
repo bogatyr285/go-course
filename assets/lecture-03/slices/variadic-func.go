@@ -13,6 +13,7 @@ func printArgs(args ...string) {
 
 func main() {
 	q := q{}
+	container
 	b, _ := json.Marshal(q)
 
 	fmt.Println(string(b))

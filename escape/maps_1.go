@@ -6,10 +6,11 @@ type article struct {
 }
 
 func main() {
-	v := map[string]article{
-		"a": article{
-			name:  "How to cook pizza...",
-			views: 1,
-		}}
+	v := map[string]string{}
+	qq(v)
 	println(v)
+}
+
+func qq(m map[string]string) {
+	m["qq"] = "changed"
 }

@@ -18,8 +18,9 @@ func producer() {
 	time.Sleep(2 * time.Second) // Simulate work
 	data = 42
 	fmt.Println("Producer: Data produced")
-	// cond.Broadcast()
-	cond.Signal()
+	cond.Broadcast()
+
+	// cond.Signal()
 	// cond.Signal()
 }
 
@@ -39,8 +40,8 @@ func consumer2() {
 
 func main() {
 	go consumer2()
-
 	go consumer()
+
 	go producer()
 
 	time.Sleep(3 * time.Second) // Make sure to give enough time for goroutines to finish

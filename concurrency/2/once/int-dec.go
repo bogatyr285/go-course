@@ -8,6 +8,7 @@ import (
 func main() {
 	var i int
 	var once sync.Once
+
 	inc := func() {
 		i++
 	}

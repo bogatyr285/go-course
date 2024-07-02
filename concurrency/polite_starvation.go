@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 	"sync"
 	"time"
 )
@@ -23,6 +24,7 @@ func greedy(wg *sync.WaitGroup, lock *sync.Mutex) {
 		lock.Lock()
 		time.Sleep(3 * time.Millisecond)
 		lock.Unlock()
+		runtime.Gosched()
 		count++
 	}
 	fmt.Println("greedy worker executed", count, "times")

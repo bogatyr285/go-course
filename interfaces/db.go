@@ -4,6 +4,7 @@ type Service struct {
 
 type db struct {
 	host string
+	db   string
 }
 
 func (d *db) GetById()    {}
@@ -16,4 +17,15 @@ type Service struct {
 type repositoty interface {
 	GetById()
 	DeleteById()
+}
+
+type Mock struct {
+}
+
+func (m *Mock) GetById() {
+
+}
+
+func (m *Mock) DeleteById() {
+
 }

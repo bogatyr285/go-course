@@ -12,7 +12,7 @@ func main() {
 	url := "http://localhost:8081/"
 
 	// Number of requests to perform
-	numRequests := 10
+	numRequests := 30
 
 	var wg sync.WaitGroup
 	wg.Add(numRequests)

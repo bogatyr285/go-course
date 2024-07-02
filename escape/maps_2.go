@@ -6,8 +6,8 @@ type article struct {
 }
 
 func main() {
-	v := map[string]*article{
-		"a": &article{
+	v := map[string]article{
+		"a": article{
 			name:  "How to cook pizza...",
 			views: 1,
 		}}

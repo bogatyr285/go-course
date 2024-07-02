@@ -21,4 +21,7 @@ func main() {
 
 	// this will not invoke the New func
 	pool.Get()
+	// pool.Put(obj)
+
+	pool.Get()
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 	"sync"
 	"time"
 )
@@ -18,7 +19,7 @@ func main() {
 			sharedLock.Lock()
 			time.Sleep(10 * time.Nanosecond)
 			sharedLock.Unlock()
-			// runtime.Gosched()
+			runtime.Gosched()
 			count++
 		}
 		fmt.Printf("Greedy worker 1 was able to execute %v work loops\n", count)

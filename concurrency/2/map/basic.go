@@ -9,7 +9,7 @@ func main() {
 	m := sync.Map{}
 	// keys and values are interface{}
 	m.Store("k1", "v1")
-	m.Store("k2", "v2")
+	m.Store("sdf", "v2")
 	m.Store("k3", "v3")
 
 	value, ok := m.Load("k1")

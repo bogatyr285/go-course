@@ -2,105 +2,65 @@ package main
 
 import (
 	"fmt"
-	"math/big"
-	"math/rand"
-	"strings"
 	"sync"
 	"time"
 )
 
+func RunProcessor(wg *sync.WaitGroup, mu *sync.Mutex, prices []map[string]float64) {
+	go func() {
+		defer wg.Done()
+
+		mu.Lock()
+		defer mu.Unlock()
+		for _, price := range prices {
+			for key, value := range price {
+				price[key] = value + 1
+			}
+			fmt.Println(price)
+		}
+	}()
+}
+
+func RunWriter() <-chan map[string]float64 {
+	var prices = make(chan map[string]float64)
+	go func() {
+
+		var currentPrice = map[string]float64{
+			"inst1": 1.1,
+			"inst2": 2.1,
+			"inst3": 3.1,
+			"inst4": 4.1,
+		}
+		for i := 1; i < 5; i++ {
+			for key, value := range currentPrice {
+				currentPrice[key] = value + 1
+			}
+			prices <- currentPrice
+			time.Sleep(time.Second)
+		}
+		close(prices)
+	}()
+	return prices
+}
 func main() {
-	done := make(chan struct{})
-	defer close(done)
+	p := RunWriter()
 
-	odd := OddIntGen(2)
-	even := EvenIntGen(2)
-	hex := HexIntGen(2)
-	out := FanIn(done, odd, even, hex)
+	mu := sync.Mutex{}
+	var prices []map[string]float64
 
-	for n := range out {
-		fmt.Println("fanned number:", n)
+	for price := range p {
+		prices = append(prices, price)
 	}
-}
 
-// FanIn считывает данные из нескольких каналов и записывает их в 1 конечный канал
-// FAN-IN - функция принимает несколько каналов в качестве входных данных
-// Она считывает все входные данные и отправляет все значения в 1 конечный выходной канал
-func FanIn(done chan struct{}, inputs ...<-chan int) <-chan int {
-	out := make(chan int)
-	var wg sync.WaitGroup
-	wg.Add(len(inputs)) // !
-
-	for _, in := range inputs {
-		go func(numbers <-chan int) {
-			defer wg.Done()
-			for n := range numbers {
-				select {
-				case <-done:
-					return
-				case out <- n:
-				}
-			}
-		}(in)
+	for _, price := range prices {
+		fmt.Println(price)
 	}
-	go func() {
-		wg.Wait()
-		close(out)
-	}()
+	fmt.Println()
 
-	return out
-}
-
-// EvenIntGen generates random even integers
-func EvenIntGen(total int) <-chan int {
-	out := make(chan int)
-	go func() {
-		n := randInt(10000)
-		for i := n; i > n-total*2; i-- {
-			if i%2 == 0 {
-				out <- i
-			}
-		}
-		close(out)
-	}()
-	return out
-}
-
-// OddIntGen generates random odd integers
-func OddIntGen(total int) <-chan int {
-	out := make(chan int)
-	go func() {
-		n := randInt(10000)
-		for i := n; i > n-total*2; i-- {
-			if i%2 != 0 {
-				out <- i
-			}
-		}
-		close(out)
-	}()
-	return out
-}
-
-// HexIntGen generates random hex numbers
-func HexIntGen(total int) <-chan int {
-	out := make(chan int)
-	hex := []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"}
-	go func() {
-		for i := 0; i < total; i++ {
-			n := randInt(len(hex) - 1)
-			bigN := new(big.Int)
-			i, wasSet := bigN.SetString(strings.Repeat(hex[n], n+1), 16)
-			if wasSet {
-				out <- int(i.Int64())
-			}
-		}
-		close(out)
-	}()
-	return out
-}
-
-func randInt(n int) int {
-	s := rand.NewSource(time.Now().UnixNano())
-	r := rand.New(s)
-	return r.Intn(n)
+	wg := sync.WaitGroup{}
+	wg.Add(3)
+	RunProcessor(&wg, &mu, prices)
+	RunProcessor(&wg, &mu, prices)
+	RunProcessor(&wg, &mu, prices)
+	wg.Wait()
 }

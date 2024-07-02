@@ -16,7 +16,6 @@ func doPrint(b *bytes.Buffer, a []any) {
 		prevString = isString
 	}
 }
-
 func main() {
 	w := bytes.Buffer{}
 	doPrint(&w, []any{"foobar"})

@@ -2,29 +2,27 @@ package main
 
 import (
 	"fmt"
-	"runtime"
 	"sync"
 )
 
 func main() {
 
-	runtime.GOMAXPROCS(4)
 	value, x := 0, 5
 	var wg sync.WaitGroup
-	// var mu sync.Mutex
+	var mu sync.Mutex
 
 	decrement := func() {
 		defer wg.Done()
-		// mu.Lock()
+		mu.Lock()
+		defer mu.Unlock()
 		value -= x
-		// mu.Unlock()
 	}
 
 	increment := func() {
 		defer wg.Done()
-		// mu.Lock()
+		mu.Lock()
 		value += x
-		// mu.Unlock()
+		mu.Unlock()
 	}
 
 	for i := 0; i < 200; i++ {

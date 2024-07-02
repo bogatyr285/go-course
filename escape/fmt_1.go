@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type Article struct {
 	Title   string
 	Content string
@@ -12,6 +14,6 @@ func main() {
 
 func newArticle() Article {
 	a := Article{Title: "Нужен лишь простой советский..."}
-	println("func: a:", &a)
+	fmt.Println("func: a:", &a)
 	return a
 }

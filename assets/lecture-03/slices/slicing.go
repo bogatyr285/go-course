@@ -5,7 +5,7 @@ import "fmt"
 // START OMIT
 
 func main() {
-	q := make([]string, 10)
+	q := make([]string, 0, 10)
 
 	for i := range q {
 		q[i] = "qq"

@@ -10,7 +10,7 @@ func TestTotalPrice(t *testing.T) {
 		cityTax  uint
 		expected uint
 	}{
-		{"Normal case", 3, 100, 10, 310}, // (3 * (100 + 10)) = 330
+		{"Normal case", 3, 100, 10, 30},  // (3 * (100 + 10)) = 330
 		{"Zero nights", 0, 100, 10, 0},   // (0 * (100 + 10)) = 0
 		{"Zero rate", 3, 0, 10, 30},      // (3 * (0 + 10)) = 30
 		{"Zero cityTax", 3, 100, 0, 300}, // (3 * (100 + 0)) = 300

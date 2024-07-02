@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func defFooStart() {
 	fmt.Println("defFooStart() executed")
@@ -27,8 +29,10 @@ func main() {
 			fmt.Println("Recovered in f", r)
 		}
 	}()
+	[]int{}
 	fmt.Println("main() started")
 	defer defMain() // defer defMain call
 	foo()           // call foo function
+	error
 	fmt.Println("main() done")
 }

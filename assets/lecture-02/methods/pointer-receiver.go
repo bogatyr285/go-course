@@ -10,10 +10,10 @@ type Line struct {
 
 func (line *Line) translate(dx, dy float64) {
 	fmt.Printf("Translating line %v by %f %f\n", *line, dx, dy)
-	(*line).x1 += dx
-	(*line).y1 += dy
-	(*line).x2 += dx
-	(*line).y2 += dy
+	line.x1 += dx
+	line.y1 += dy
+	line.x2 += dx
+	line.y2 += dy
 }
 
 func main() {

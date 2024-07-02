@@ -24,7 +24,6 @@ func main() {
 	}
 	move := func(wg *sync.WaitGroup, id string, v1, v2 *value) {
 		defer wg.Done()
-		rand.Seed(time.Now().UnixNano())
 		for i := 0; ; i++ {
 			if i >= 3 {
 				fmt.Println("canceling goroutine... ", id)

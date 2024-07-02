@@ -31,10 +31,10 @@ func fetchURL(url string) error {
 
 func main() {
 	urls := []string{
-		"https://jsonplaceholder.typicode.com/posts/1",
-		"https://jsonplaceholder.typicode.com/posts/2",
-		"https://jsonplaceholder.typicode.com/posts/3",
-		"https://jsonplaceholder.typicode.com/posts/4",
+		"//jsonplaceholder.typicode.com/posts/1",
+		"//jsonplaceholder.typicode.com/posts/3",
+		"//jsonplaceholder.typicode.com/posts/2",
+		"//jsonplaceholder.typicode.com/posts/4",
 		"https://jsonplaceholder.typicode.com/posts/5",
 	}
 

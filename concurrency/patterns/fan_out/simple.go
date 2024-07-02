@@ -22,10 +22,10 @@ func main() {
 	display(c4, "c4")
 }
 
-// FanOut reads all values from a given input channel and sends each value to a resulting channel
-// The FAN-OUT pattern states that multiple invocation of this function
-// will generate multiple go routines to read from the same channel till the input channel is closed
-// This allows for better work distribution
+// FanOut считывает все значения из заданного входного канала и отправляет каждое значение в результирующий канал
+// Нужен многократный вызов этой функции
+// Создает несколько рутин для чтения из одного и того же канала, пока входной канал не будет закрыт
+// Позволяет лучше распределить работу
 func FanOut(done chan struct{}, input <-chan int) <-chan int {
 	out := make(chan int)
 	go func() {

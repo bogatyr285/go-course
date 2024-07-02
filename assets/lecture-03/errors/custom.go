@@ -38,10 +38,9 @@ func main() {
 
 	var httpErr httpErr
 	if errors.As(err, &httpErr) {
-		fmt.Printf("Failed with httpErr! Code: %d\n", httpErr.code)
+		fmt.Printf("Failed with httpErr! Code: %d\n", httpErr.)
 		os.Exit(2)
 	}
-
 	if err != nil {
 		fmt.Println("Failed!", err)
 		os.Exit(2)

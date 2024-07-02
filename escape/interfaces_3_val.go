@@ -15,7 +15,7 @@ func print(w Writer) {
 }
 
 func main() {
-	var w Writer = writer{}
-	print(w)
-	// print(writer{})
+	// var w Writer = writer{}
+	// print(w)
+	print(writer{})
 }
