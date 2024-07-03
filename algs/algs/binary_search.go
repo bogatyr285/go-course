@@ -7,13 +7,13 @@ import (
 )
 
 func main() {
-	var elements []int
-	elements = []int{ /*36 */ 1, 3, 16, 10, 45, 31, 28, 36, 45, 75}
-	var element int
-	element = 36
-	binSearch(elements, element)
+	// var elements []int
+	// elements = []int{1, 3, 16, 10, 45, 31, 28, 36, 45, 75}
+	// var element int
+	// element = 36
+	// binSearch(elements, element)
 
-	// GuessingGame()
+	GuessingGame()
 }
 
 func binSearch(elements []int, element int) (bool, int) {
