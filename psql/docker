@@ -1,0 +1,1 @@
+ docker run --name postgres12 -p 5432:5432 -e POSTGRES_USER=user_rw -e POSTGRES_PASSWORD=secret -d  postgres:16.4-alpine3.20
