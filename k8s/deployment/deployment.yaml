@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-test-app-deployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: k8s-test-app
+  template:
+    metadata:
+      labels:
+        app: k8s-test-app
+    spec:
+      containers:
+      - name: k8s-test-app-container
+        image: k8s-test-app:1.0.0
+        ports:
+          - containerPort: 3000

@@ -84,7 +84,7 @@ func handle(conn net.Conn) {
 
 func writeIndex(writer io.Writer) error {
 	username := "Василий"
-	balance := "1 000.50" // TODO: написать функцию-форматтер
+	balance := "1 337.0" // TODO: написать функцию-форматтер
 
 	page, err := os.ReadFile("web/template/index.html")
 	if err != nil {

@@ -1,0 +1,131 @@
+image:  golang:1.23.2-alpine3.20
+
+stages:
+  - initialize
+  - build
+  - test
+  - lint
+  - vet
+  - static_check
+  - security_check
+  - deploy
+
+variables:
+  GO111MODULE: "on"
+  CGO_ENABLED: 1
+  GOBIN: "$CI_PROJECT_DIR/bin"
+
+initialize:
+  stage: initialize
+  # <<: *default_setup
+  script:
+    - echo "Initializing project..."
+    - ls -la
+  cache:
+    key: "${CI_PROJECT_NAME}"
+    paths:
+      - go.sum
+      - go.mod
+
+build:
+  stage: build
+  # <<: *default_setup
+  script:
+    - echo "Initializing project..."
+    - ls -la
+    - mkdir -p $GOBIN
+    - go env
+    - go mod download
+    - go mod tidy
+    - echo "Building project..."
+    - apk update && apk add --no-cache build-base gcc git
+    - go build -o $GOBIN/goapp cmd/main.go
+  artifacts:
+    paths:
+      - $GOBIN/goapp
+  cache:
+    key: "${CI_PROJECT_NAME}"
+    paths:
+      - go.sum
+      - go.mod
+
+test:
+  stage: test
+  # <<: *default_setup
+  script:
+    - apk update && apk add --no-cache build-base gcc git
+    - go test -coverprofile=coverage.out ./... | tee test-report.txt
+  artifacts:
+    when: always
+    paths:
+      - test-report.txt
+      - coverage.out
+    expire_in: 1 week
+
+vet:
+  stage: vet
+  script:
+    - go vet -json ./... | tee vet-report.json
+  artifacts:
+    when: always
+    paths:
+      - vet-report.json
+    expire_in: 1 week
+
+staticcheck:
+  stage: static_check
+  script:
+    - go install honnef.co/go/tools/cmd/staticcheck@2023.1.2 # Pin to a stable version
+    - staticcheck ./...
+
+golint:
+  stage: lint
+  script:
+    - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.61.0
+    - golangci-lint run
+
+# security_check:
+#   stage: security_check
+#   script:
+#     - apk update && apk add --no-cache build-base gcc git
+#     - go install github.com/securego/gosec/v2/cmd/gosec@latest
+#     - gosec ./...
+
+security_check:
+  stage: security_check
+  variables:
+    GOBIN: /go/bin
+    GOPATH: /go
+  before_script:
+    - apk update && apk add build-base gcc git
+  script:
+    - mkdir -p $GOBIN
+    - export PATH=$PATH:$GOBIN
+    - go env -w GOPATH=$GOPATH
+    - go install github.com/securego/gosec/v2/cmd/gosec@latest
+    - gosec -fmt=json -out=results.json -stdout ./... 
+    
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploy step "
+    # - ls -la 
+
+
+
+  # .cache_dependencies: &cache_dependencies
+  # cache:
+  #   key: "${CI_PROJECT_NAME}-${CI_JOB_NAME}"
+  #   paths:
+  #     - /var/cache/apk
+  #     - /usr/lib/go
+
+# .default_setup: &default_setup
+#   <<: *cache_dependencies
+#   before_script:
+#     - apk update && apk add --no-cache build-base gcc git
+#     - mkdir -p $GOBIN
+#     - go env
+#     - go mod download
+#     - go mod tidy

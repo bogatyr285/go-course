@@ -9,19 +9,15 @@ import (
 	"time"
 )
 
-// Number of workers in the pool
 const workerCount = 5
 
-// outputDir is the directory to save downloaded files
 const outputDir = "./downloads"
 
-// DownloadTask represents a file download task
 type DownloadTask struct {
 	URL      string
 	FileName string
 }
 
-// downloadFile performs the file download
 func downloadFile(task DownloadTask) error {
 	resp, err := http.Get(task.URL)
 	if err != nil {
@@ -29,14 +25,12 @@ func downloadFile(task DownloadTask) error {
 	}
 	defer resp.Body.Close()
 
-	// Create output file
 	out, err := os.Create(fmt.Sprintf("%s/%s", outputDir, task.FileName))
 	if err != nil {
 		return fmt.Errorf("failed to create file %s: %v", task.FileName, err)
 	}
 	defer out.Close()
 
-	// Write the body to file
 	_, err = io.Copy(out, resp.Body)
 	if err != nil {
 		return fmt.Errorf("failed to write%v to file %s: %v", task.URL, task.FileName, err)
@@ -44,7 +38,6 @@ func downloadFile(task DownloadTask) error {
 	return nil
 }
 
-// worker function processes download tasks from the input channel and sends results to the output channel
 func worker(wg *sync.WaitGroup, tasks <-chan DownloadTask, results chan<- error) {
 	defer wg.Done()
 	for task := range tasks {
@@ -54,7 +47,6 @@ func worker(wg *sync.WaitGroup, tasks <-chan DownloadTask, results chan<- error)
 }
 
 func main() {
-	// Ensure output directory exists
 	if _, err := os.Stat(outputDir); os.IsNotExist(err) {
 		err := os.Mkdir(outputDir, os.ModePerm)
 		if err != nil {
@@ -63,7 +55,6 @@ func main() {
 		}
 	}
 
-	// List of download tasks
 	tasks := []DownloadTask{
 		{URL: "https://example.com/file1.jpg", FileName: "file1.jpg"},
 		{URL: "https://example.com/file2.jpg", FileName: "file2.jpg"},
@@ -75,7 +66,6 @@ func main() {
 	taskChannel := make(chan DownloadTask, len(tasks))
 	resultChannel := make(chan error, len(tasks))
 
-	// Start the timer
 	startTime := time.Now()
 
 	var wg sync.WaitGroup

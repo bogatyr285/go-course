@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: golang-pod
+spec:
+  containers:
+  - name: golang-container
+    image: k8s-test-app:1.0.0
+    ports:
+    - containerPort: 3000

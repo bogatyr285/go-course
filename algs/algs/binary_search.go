@@ -13,7 +13,7 @@ func main() {
 	// element = 36
 	// binSearch(elements, element)
 
-	GuessingGame()
+	// GuessingGame()
 }
 
 func binSearch(elements []int, element int) (bool, int) {

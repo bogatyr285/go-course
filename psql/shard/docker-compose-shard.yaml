@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  postgres_master:
+    image:  postgres:16.4-alpine3.20
+    container_name: postgres_master
+    environment:
+      POSTGRES_DB: master_db
+      POSTGRES_USER: master_user
+      POSTGRES_PASSWORD: master_password
+    ports:
+      - "5432:5432"
+    networks:
+      - shardnet
+    volumes:
+      - master_data:/var/lib/postgresql/data
+
+  postgres_shard:
+    image:  postgres:16.4-alpine3.20
+    container_name: postgres_shard
+    environment:
+      POSTGRES_DB: shard_db
+      POSTGRES_USER: shard_user
+      POSTGRES_PASSWORD: shard_password
+    ports:
+      - "5433:5432"
+    networks:
+      - shardnet
+    volumes:
+      - shard_data:/var/lib/postgresql/data
+
+networks:
+  shardnet:
+
+volumes:
+  master_data:
+  shard_data:

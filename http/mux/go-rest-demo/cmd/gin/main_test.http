@@ -1,0 +1,99 @@
+###
+GET http://localhost:8080/
+
+###
+POST http://localhost:8080/recipes
+Content-Type: application/json
+
+{
+  "name": "Ham and cheese toasties",
+  "ingredients": [
+    {
+      "name": "bread"
+    },{
+      "name": "ham"
+    },{
+      "name": "cheese"
+    }
+  ]
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+GET http://localhost:8080/recipes
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+  client.assert(JSON.stringify(response.body) === "{\"ham-and-cheese-toasties\":{\"name\":\"Ham and cheese toasties\",\"ingredients\":[{\"name\":\"bread\"},{\"name\":\"ham\"},{\"name\":\"cheese\"}]}}", "Body match expected response")
+});
+%}
+
+###
+GET http://localhost:8080/recipes/ham-and-cheese-toasties
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+  client.assert(JSON.stringify(response.body) === "{\"name\":\"Ham and cheese toasties\",\"ingredients\":[{\"name\":\"bread\"},{\"name\":\"ham\"},{\"name\":\"cheese\"}]}", "Body match expected response")
+});
+%}
+
+###
+PUT  http://localhost:8080/recipes/ham-and-cheese-toasties
+Content-Type: application/json
+
+{
+  "name": "Ham and cheese toasties",
+  "ingredients": [
+    {
+      "name": "bread"
+    },{
+      "name": "ham"
+    },{
+      "name": "cheese"
+    },{
+      "name": "butter"
+    }
+  ]
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+GET http://localhost:8080/recipes/ham-and-cheese-toasties
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+  client.assert(JSON.stringify(response.body) === "{\"name\":\"Ham and cheese toasties\",\"ingredients\":[{\"name\":\"bread\"},{\"name\":\"ham\"},{\"name\":\"cheese\"},{\"name\":\"butter\"}]}", "Body match expected response")
+
+});
+%}
+
+###
+DELETE http://localhost:8080/recipes/ham-and-cheese-toasties
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+GET http://localhost:8080/recipes/ham-and-cheese-toasties
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 404, "Response status is not 404");
+});
+%}

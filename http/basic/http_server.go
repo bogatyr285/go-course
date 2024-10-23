@@ -60,8 +60,7 @@ func handle(conn net.Conn) {
 	log.Printf("received: %s\n", line)
 
 	username := "Василий"
-	balance := "1 000.50" // FIXME: написать функцию-форматтер
-
+	balance := "1 337.00" // TODO: функцию-форматтер
 	page, err := os.ReadFile("./web/template/index.html")
 	if err != nil {
 		log.Println("os.ReadFile: ", err)
@@ -92,7 +91,8 @@ func handle(conn net.Conn) {
 		log.Println("writer.WriteString: ", err)
 		return
 	}
-	_, err = writer.Write(page)
+
+	_, err = writer.Write([]byte(page))
 	if err != nil {
 		log.Println("writer.Write: ", err)
 		return
